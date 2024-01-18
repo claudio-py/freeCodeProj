@@ -5,7 +5,7 @@ let currentWeapon = 0
 let fighting
 let monsterHealth
 let inventory = ['stick']
-
+let backgroundTheme
 const button1 = document.querySelector('#button1')
 const button2 = document.querySelector('#button2')
 const button3 = document.querySelector('#button3')
@@ -13,6 +13,7 @@ const text = document.querySelector('#text')
 const xpText = document.querySelector('#xpText')
 const healthText = document.querySelector('#healthText')
 const goldText = document.querySelector('#goldText')
+const monsterPic = document.querySelector('#monsterPic')
 const monsterStats = document.querySelector('#monsterStats')
 const monsterName = document.querySelector('#monsterName')
 const monsterHealthText = document.querySelector('#monsterHealth')
@@ -102,10 +103,25 @@ const locations = [
 button1.onclick = goStore
 button2.onclick = goCave
 button3.onclick = fightDragon
-function randomBackground(location) {
-	location === "shop" ? document.body.style.backgroundImage = 'url(./assets/shop' + Math.floor(Math.random() * 4) + '.jpg)'
-	: location === "cave" ? document.body.style.backgroundImage = 'url(./assets/cave' + Math.floor(Math.random() * 4) + '.jpg)'
-	: document.body.style.backgroundImage = 'url(./assets/medievaltown' + Math.floor(Math.random() * 4) + '.jpg)'
+// window.onload = function () {
+// 	let audio = new Audio('./assets/audio/Townsong.mp3')
+// 	audio.play()
+// }
+const Townsong = document.getElementById('Townsong')
+const Storesong = document.getElementById('Storesong')
+const Cavesong = document.getElementById('Cavesong')
+
+Townsong.play()
+
+function randomBackground() {
+	backgroundTheme === 'store'
+		? (document.body.style.backgroundImage =
+				'url(./assets/shop' + Math.floor(Math.random() * 4) + '.jpg)')
+		: backgroundTheme === 'cave'
+		? (document.body.style.backgroundImage =
+				'url(./assets/cave' + Math.floor(Math.random() * 4) + '.jpg)')
+		: (document.body.style.backgroundImage =
+				'url(./assets/medievaltown' + Math.floor(Math.random() * 4) + '.jpg)')
 }
 function update(location) {
 	monsterStats.style.display = 'none'
@@ -116,22 +132,47 @@ function update(location) {
 	button2.onclick = location['button functions'][1]
 	button3.onclick = location['button functions'][2]
 	text.innerText = location.text
+	backgroundTheme = location['name']
 }
 
 function goTown() {
 	update(locations[0])
 	randomBackground()
+	monsterPic.style.display = 'none'
+	Storesong.pause()
+	Cavesong.pause()
+	Slimesong.pause()
+	Beastsong.pause()
+	Bosssong.pause()
+	Losesong.pause()
+	Winsong.pause()
+	Storesong.currentTime = 0
+	Cavesong.currentTime = 0
+	Slimesong.currentTime = 0
+	Beastsong.currentTime = 0
+	Bosssong.currentTime = 0
+	Losesong.currentTime = 0
+	Winsong.currentTime = 0
+
+
+	Townsong.play()
+	console.log(Townsong)
 }
 
 function goStore() {
 	update(locations[1])
-	randomBackground("shop")
+	randomBackground()
+	Townsong.pause()
+	Townsong.currentTime = 0
+	Storesong.play()
 }
 
 function goCave() {
 	update(locations[2])
-	randomBackground('cave')
-
+	randomBackground()
+	Townsong.pause()
+	Townsong.currentTime = 0
+	Cavesong.play()
 }
 
 function buyHealth() {
@@ -180,16 +221,24 @@ function sellWeapon() {
 function fightSlime() {
 	fighting = 0
 	goFight()
+	Cavesong.pause()
+	Slimesong.play()
 }
 
 function fightBeast() {
 	fighting = 1
 	goFight()
+	Cavesong.pause()
+	Beastsong.play()
 }
 
 function fightDragon() {
 	fighting = 2
 	goFight()
+	Townsong.pause()
+	Townsong.currentTime = 0
+
+	Bosssong.play()
 }
 
 function goFight() {
@@ -198,6 +247,21 @@ function goFight() {
 	monsterStats.style.display = 'block'
 	monsterName.innerText = monsters[fighting].name
 	monsterHealthText.innerText = monsterHealth
+	switch (fighting) {
+		case 0:
+			monsterPic.style.backgroundImage =
+				'url(./assets/slime' + Math.floor(Math.random() * 3) + '.png)'
+			break
+		case 1:
+			monsterPic.style.backgroundImage =
+				'url(./assets/fangedbeast' + Math.floor(Math.random() * 4) + '.png)'
+			break
+		case 2:
+			monsterPic.style.backgroundImage =
+				'url(./assets/dragon' + Math.floor(Math.random() * 4) + '.png)'
+			break
+	}
+	monsterPic.style.display = 'block'
 }
 
 function attack() {
@@ -244,14 +308,39 @@ function defeatMonster() {
 	goldText.innerText = gold
 	xpText.innerText = xp
 	update(locations[4])
+	switch (fighting) {
+		case 0:
+			monsterPic.style.backgroundImage =
+				'url(./assets/deadslime' + Math.floor(Math.random() * 3) + '.png)'
+			break
+		case 1:
+			monsterPic.style.backgroundImage = 'url(./assets/deadfanged.png)'
+			break
+	}
+	Slimesong.pause()
+	Beastsong.pause()
+	Slimesong.currentTime = 0
+	Beastsong.currentTime = 0
+	Cavesong.play()
 }
 
 function lose() {
 	update(locations[5])
+	Slimesong.pause()
+	Beastsong.pause()
+	Bosssong.pause()
+	Slimesong.currentTime = 0
+	Beastsong.currentTime = 0
+	Bosssong.currentTime = 0
+	Losesong.play()
 }
 
 function winGame() {
 	update(locations[6])
+	monsterPic.style.backgroundImage = 'url(./assets/dragondead.jpg'
+	Bosssong.pause()
+	Bosssong.currentTime = 0
+	Winsong.play()
 }
 
 function restart() {
@@ -300,6 +389,7 @@ function pick(guess) {
 		}
 	}
 }
+
 // background
 
 randomBackground()
