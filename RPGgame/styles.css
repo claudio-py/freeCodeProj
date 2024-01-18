@@ -13,6 +13,11 @@
 body {
 	font-size: 1.6rem;
 	background-color: #0a0a23;
+	/* background-image: url(./assets/medievaltown0.jpg); */
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-color: #0a0a23;
   display: flex;
     justify-content: center;
     align-items: center;
@@ -20,19 +25,23 @@ body {
 }
 
 #text {
-	background-color: #0a0a23;
+	background-color: #0a0a23e1;
 	color: #ffffff;
 	padding: 10px;
    
 }
-
+.vanta-canvas{
+	opacity: .8 !important;
+}
 #game {
 	max-width: 500px;
 	max-height: 400px;
-	background-color: #ffffff;
+	
+	
 	color: #ffffff;
 	margin: 30px auto 0px;
 	padding: 10px;
+	
 }
 #controls{
   display: flex;
@@ -45,7 +54,7 @@ body {
   display: flex;
     justify-content: center;
     align-items: center;
-    
+    background-color: #ffffffe1;
 }
 #controls,
 #stats {
@@ -64,6 +73,7 @@ body {
 
 .stat {
 	padding-right: 10px;
+	
 }
 
 button {
@@ -72,4 +82,5 @@ button {
 	background-color: #feac32;
 	background-image: linear-gradient(#fecc4c, #ffac33);
 	border: 3px solid #feac32;
+	
 }

@@ -102,7 +102,11 @@ const locations = [
 button1.onclick = goStore
 button2.onclick = goCave
 button3.onclick = fightDragon
-
+function randomBackground(location) {
+	location === "shop" ? document.body.style.backgroundImage = 'url(./assets/shop' + Math.floor(Math.random() * 4) + '.jpg)'
+	: location === "cave" ? document.body.style.backgroundImage = 'url(./assets/cave' + Math.floor(Math.random() * 4) + '.jpg)'
+	: document.body.style.backgroundImage = 'url(./assets/medievaltown' + Math.floor(Math.random() * 4) + '.jpg)'
+}
 function update(location) {
 	monsterStats.style.display = 'none'
 	button1.innerText = location['button text'][0]
@@ -116,14 +120,18 @@ function update(location) {
 
 function goTown() {
 	update(locations[0])
+	randomBackground()
 }
 
 function goStore() {
 	update(locations[1])
+	randomBackground("shop")
 }
 
 function goCave() {
 	update(locations[2])
+	randomBackground('cave')
+
 }
 
 function buyHealth() {
@@ -292,3 +300,19 @@ function pick(guess) {
 		}
 	}
 }
+// background
+
+randomBackground()
+VANTA.CELLS({
+	el: '#game',
+	mouseControls: true,
+	touchControls: true,
+	gyroControls: false,
+	minHeight: 200.0,
+	minWidth: 200.0,
+	scale: 1.0,
+	color1: 0xff0020,
+	color2: 0xf7e116,
+	size: 1.1,
+	speed: 5.0
+})
